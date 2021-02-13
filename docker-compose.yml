@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "${MYSQL_OUTER_PORT}:3306"
+    volumes:
+      - ./db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

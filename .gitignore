@@ -1,0 +1,4 @@
+/venv
+/stock/recommended_trades.xlsx
+.env
+.idea
